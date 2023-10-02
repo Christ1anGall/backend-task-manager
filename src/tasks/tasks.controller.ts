@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -18,17 +20,33 @@ export class TasksController {
 
   @Post()
   async create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
-    return await this.tasksService.create(createTaskDto);
+    try {
+      return await this.tasksService.create(createTaskDto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get()
   async findAll(): Promise<Task[]> {
-    return await this.tasksService.findAll();
+    try {
+      return await this.tasksService.findAll();
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<Task> {
-    return await this.tasksService.findOne(id);
+    try {
+      const task = await this.tasksService.findOne(id);
+      if (!task) {
+        throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+      }
+      return task;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Patch(':id')
@@ -36,11 +54,23 @@ export class TasksController {
     @Param('id') id: number,
     @Body() updateTaskDto: UpdateTaskDto,
   ): Promise<Task> {
-    return await this.tasksService.update(id, updateTaskDto);
+    try {
+      const task = await this.tasksService.update(id, updateTaskDto);
+      if (!task) {
+        throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+      }
+      return task;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Delete(':id')
   async remove(@Param('id') id: number) {
-    await this.tasksService.remove(+id);
+    try {
+      await this.tasksService.remove(+id);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
