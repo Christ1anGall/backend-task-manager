@@ -1,0 +1,25 @@
+version: '3'
+services:
+  nestjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env.dev  # .env.dev para o ambiente de desenvolvimento
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env.dev  # .env.dev para o ambiente de desenvolvimento
