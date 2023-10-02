@@ -6,7 +6,7 @@ import { User } from '../users/entity/user.entity';
 import { UsersModule } from 'src/users/users.module';
 import { UsersService } from 'src/users/users.service';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -17,11 +17,12 @@ import { JwtModule } from '@nestjs/jwt';
       global: true,
       secret: 'maytheforcebewithyou',
       signOptions: {
-        expiresIn: 18000,
+        expiresIn: '1h',
       },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService],
+  providers: [AuthService, UsersService, JwtService],
+  exports: [AuthService],
 })
 export class AuthModule {}

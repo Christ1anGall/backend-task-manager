@@ -9,8 +9,8 @@ import { Task } from './entity/task.entity';
 export class TasksService {
   constructor(
     @InjectRepository(Task)
-    private readonly taskRepository: Repository<Task>,
-  ) {}
+    private taskRepository: Repository<Task>,
+  ) { }
 
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
     const task = this.taskRepository.create(createTaskDto);

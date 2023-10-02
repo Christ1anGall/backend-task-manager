@@ -17,6 +17,6 @@ export class Task {
   @Column()
   priority: string;
 
-  @Column()
+  @Column({ default: false })
   concluded: boolean;
 }

@@ -17,7 +17,7 @@ import { Task } from './entity/task.entity';
 import { AuthGuard } from '../auth/auth.guard';
 @Controller('tasks')
 export class TasksController {
-  constructor(private readonly tasksService: TasksService) {}
+  constructor(private tasksService: TasksService) { }
 
   @Post()
   async create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
