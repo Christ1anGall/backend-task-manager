@@ -6,8 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  HttpException,
-  HttpStatus,
+  NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -23,7 +23,7 @@ export class TasksController {
     try {
       return await this.tasksService.create(createTaskDto);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new BadRequestException();
     }
   }
 
@@ -32,7 +32,7 @@ export class TasksController {
     try {
       return await this.tasksService.findAll();
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new BadRequestException();
     }
   }
 
@@ -41,11 +41,11 @@ export class TasksController {
     try {
       const task = await this.tasksService.findOne(id);
       if (!task) {
-        throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+        throw new NotFoundException(id);
       }
       return task;
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new BadRequestException();
     }
   }
 
@@ -57,11 +57,11 @@ export class TasksController {
     try {
       const task = await this.tasksService.update(id, updateTaskDto);
       if (!task) {
-        throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+        throw new NotFoundException(id);
       }
       return task;
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new BadRequestException();
     }
   }
 
@@ -70,7 +70,7 @@ export class TasksController {
     try {
       await this.tasksService.remove(+id);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new BadRequestException();
     }
   }
 }
