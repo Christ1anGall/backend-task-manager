@@ -19,19 +19,6 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async checkCredentials(credentialsDto: CredentialsDto): Promise<User> {
-    const { email, password } = credentialsDto;
-    const user = await this.userRepository.findOne({
-      where: { email },
-    });
-
-    if (user && (await user.checkPassword(password))) {
-      return user;
-    } else {
-      return null;
-    }
-  }
-
   async createUser(
     createUserDto: CreateUserDto,
     role: UserRole,
@@ -71,5 +58,18 @@ export class UsersService {
 
   private async hashPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
+  }
+
+  async checkCredential(credentialsDto: CredentialsDto): Promise<User> {
+    const { email, password } = credentialsDto;
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    if (user && (await user.checkPassword(password))) {
+      return user;
+    } else {
+      return null;
+    }
   }
 }
