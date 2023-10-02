@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksModule } from './tasks/tasks.module';
 import { DataSource } from 'typeorm';
 import { Task } from './tasks/entity/task.entity';
-import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -22,7 +21,6 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true,
     }),
     TasksModule,
-    ConfigModule.forRoot(),
   ],
 })
 export class AppModule {
