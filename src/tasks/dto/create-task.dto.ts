@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsDateString } from 'class-validator';
+import { IsString, IsOptional, IsDateString, IsBoolean } from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
@@ -13,4 +13,7 @@ export class CreateTaskDto {
 
   @IsString()
   priority: string;
+
+  @IsBoolean()
+  concluded: boolean;
 }

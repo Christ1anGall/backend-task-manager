@@ -6,6 +6,8 @@ import { Task } from './tasks/entity/task.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
+import { User } from './users/entity/user.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -15,7 +17,7 @@ import { UsersModule } from './users/users.module';
       username: `Christ1anGall`,
       password: `Of1dk4HKPqVL`,
       database: 'neondb',
-      entities: [Task],
+      entities: [Task, User],
       synchronize: true,
       ssl: {
         rejectUnauthorized: false,
