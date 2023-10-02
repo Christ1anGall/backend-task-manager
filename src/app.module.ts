@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksModule } from './tasks/tasks.module';
 import { DataSource } from 'typeorm';
 import { Task } from './tasks/entity/task.entity';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { Task } from './tasks/entity/task.entity';
       autoLoadEntities: true,
     }),
     TasksModule,
+    AuthModule,
+    UsersModule,
   ],
 })
 export class AppModule {
